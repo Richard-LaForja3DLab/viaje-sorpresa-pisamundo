@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viaje Sorpresa - Viajes Pisa Mundo Vecindario</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+        height: 100vh;
+        background: #041a0c;
+        color: white;
+    }
+
+    /* Fondo animado */
+    .bg {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle at 30% 10%, #0c3, transparent 60%),
+                    radial-gradient(circle at 80% 80%, #0a4, transparent 70%),
+                    #041a0c;
+        animation: moveBg 20s infinite alternate ease-in-out;
+        z-index: -2;
+    }
+
+    @keyframes moveBg {
+        0% { transform: scale(1) translate(0, 0); }
+        100% { transform: scale(1.2) translate(-20px, -20px); }
+    }
+
+    /* Partículas */
+    .particles {
+        position: fixed;
+        inset: 0;
+        background-image: radial-gradient(#69f37a33 2px, transparent 2px);
+        background-size: 70px 70px;
+        animation: float 12s infinite linear;
+        z-index: -1;
+    }
+
+    @keyframes float {
+        from { transform: translateY(0); }
+        to { transform: translateY(-300px); }
+    }
+
+    /* Tarjeta principal */
+    .container {
+        position: relative;
+        margin: auto;
+        margin-top: 6vh;
+        width: 90%;
+        max-width: 430px;
+        background: rgba(10, 45, 20, 0.8);
+        padding: 30px;
+        border-radius: 25px;
+        box-shadow: 0 0 30px #00000070;
+        backdrop-filter: blur(6px);
+        transition: transform 0.1s ease-out;
+    }
+
+    .logo {
+        width: 160px;
+        margin-bottom: 18px;
+    }
+
+    .title {
+        font-size: 25px;
+        background: linear-gradient(90deg, #86efac, #4ade80);
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align:center;
+    }
+
+    .subtitle {
+        color: #bbf7d0;
+        margin-bottom: 20px;
+        font-size: 15px;
+        text-align:center;
+    }
+
+    .destination-box {
+        background: rgba(5, 20, 10, 0.85);
+        padding: 20px;
+        border-radius: 18px;
+        border: 1px solid #4ade8070;
+        margin-bottom: 20px;
+    }
+
+    .destino {
+        font-size: 22px;
+        font-weight: bold;
+        color: #86efac;
+        margin-bottom: 8px;
+        text-align:center;
+    }
+
+    .destino a {
+        color: #6ee7b7;
+        text-decoration: none;
+    }
+
+    .texto {
+        color: #d1fae5;
+        font-size: 14px;
+        text-align:center;
+    }
+
+    .buttons {
+        margin-top: 22px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        background: #86efac;
+        border-radius: 14px;
+        text-decoration: none;
+        color: #06210f;
+        font-weight: bold;
+        font-size: 14px;
+        transition: 0.3s;
+        box-shadow: 0 0 12px #86efac60;
+        cursor: pointer;
+        border: none;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        background: #4ade80;
+        box-shadow: 0 0 18px #4ade80aa;
+    }
+
+    .btn-new {
+        background: #34d399;
+        color: #06210f;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+<div class="particles"></div>
+
+<div class="container" id="card">
+
+<!-- LOGO EN BASE64 -->
+<img class="logo" alt="Viajes Pisa Mundo Vecindario"
+src="data:image/png;base64,
+iVBORw0KGgoAAAANSUhEUgAAAJEAAABRCAYAAADSMESXAAAAAXNSR0IArs4c6QAA
+AARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAEslSURBVHhe7Z0J
+nGVV1cfP9+52ZndmZpmdk8mSGWQgmYkICSQkBBAiCwkEBSQQQCAIgoghAIiCImip
+kEBBFUAlQZKlNEqQSm1dLaW69b77r3PvffuOnVvne+qurq7urq6Orqqtdfv3u/fe
+873fOec73/uc51mE6C8AEREREREREREREREREREREREREREfGQIA6JCwBfQAxg
+FpEAIKCQER+iKJEJCeSDBgcHBwYGhvb39/nuAkQIIaDEo2db0...
+...(muchas líneas Base64)...
+3d2d5rNptN7wktoQYiYOgoYqEqiigq2AAbr4gFaVIUQXgFlK4QQigBUkgvm03b">
+<h1 class="title">Tu viaje te está llamando</h1>
+<p class="subtitle">Pasa la etiqueta NFC y deja que el destino te sorprenda.</p>
+
+<div class="destination-box">
+    <div class="destino" id="destino"></div>
+    <div class="texto" id="texto"></div>
+</div>
+
+<div class="buttons">
+    <a href="https://www.pisamundovecindario.com/" target="_blank" class="btn">🌍 Web oficial</a>
+    <a href="https://api.whatsapp.com/send?phone=34828665826&text=" target="_blank" class="btn">💬 WhatsApp</a>
+    <button onclick="nuevoDestino()" class="btn btn-new">🔄 Nuevo destino</button>
+</div>
+
+</div> <!-- cierre container -->
+<script>
+const destinos = [
+    {n:"Tokio, Japón",u:"https://www.japan.travel/",f:"La mezcla perfecta entre tradición y futuro."},
+    {n:"París, Francia",u:"https://es.parisinfo.com/",f:"Romanticismo, arte y magia en cada rincón."},
+    {n:"Nueva York, EE.UU.",u:"https://www.nycgo.com/",f:"La ciudad que nunca duerme te llama."},
+    {n:"Roma, Italia",u:"https://www.turismoroma.it/",f:"Historia viva en cada paso."},
+    {n:"Bali, Indonesia",u:"https://www.balitourismboard.org/",f:"Playas, templos y paz interior."},
+    {n:"Londres, Reino Unido",u:"https://visitlondon.com",f:"Clásico, moderno y vibrante."},
+    {n:"Santorini, Grecia",u:"https://www.visitgreece.gr/",f:"Atardeceres inolvidables y magia azul."},
+    {n:"Bangkok, Tailandia",u:"https://www.tourismthailand.org/",f:"Cultura, comida callejera y energía infinita."},
+    {n:"Dubai, EAU",u:"https://www.visitdubai.com/",f:"Lujo, rascacielos y aventura en el desierto."},
+    {n:"Marrakech, Marruecos",u:"https://visitmarrakech.com/",f:"Aromas, colores y tradición auténtica."},
+    {n:"Honolulu, Hawái",u:"https://www.gohawaii.com/",f:"Playas paradisíacas y espíritu aloha."},
+    {n:"Reykjavik, Islandia",u:"https://visitreykjavik.is/",f:"Auroras boreales y paisajes irreales."},
+    {n:"Sídney, Australia",u:"https://www.sydney.com/",f:"Sol, surf y vida junto al mar."},
+    {n:"Vancouver, Canadá",u:"https://www.destinationvancouver.com/",f:"Naturaleza, montañas y aire puro."},
+    {n:"Seúl, Corea del Sur",u:"https://english.visitseoul.net/",f:"Tecnología, cultura pop y tradición."},
+    {n:"El Cairo, Egipto",u:"https://www.egypt.travel/",f:"Pirámides, misterio y desierto eterno."},
+    {n:"Río de Janeiro, Brasil",u:"https://visitbrasil.com/",f:"Playa, ritmo y alegría sin fin."},
+    {n:"Ámsterdam, Países Bajos",u:"https://www.iamsterdam.com/",f:"Canales, bicicletas y libertad."},
+    {n:"Praga, República Checa",u:"https://www.prague.eu/",f:"Belleza medieval en cada calle."},
+    {n:"Dubrovnik, Croacia",u:"https://tzdubrovnik.hr/",f:"La perla del Adriático te espera."},
+    {n:"Zanzíbar, Tanzania",u:"https://www.tanzaniatourism.go.tz/",f:"Playas turquesas y esencia africana."},
+    {n:"Singapur",u:"https://www.visitsingapore.com/",f:"Futuro, orden y modernidad."},
+    {n:"Los Ángeles, EE.UU.",u:"https://www.discoverlosangeles.com/",f:"Hollywood, playas y vida californiana."},
+    {n:"Lisboa, Portugal",u:"https://www.visitlisboa.com/",f:"Fado, historia y encanto atlántico."},
+    {n:"Venecia, Italia",u:"https://www.veneziaunica.it/",f:"La ciudad flotante más famosa del mundo."},
+    {n:"Phuket, Tailandia",u:"https://www.tourismthailand.org/",f:"Playas de agua cristalina y relax total."},
+    {n:"Estambul, Turquía",u:"https://istanbul-tourist-information.com/",f:"Puente entre Oriente y Occidente."},
+    {n:"Maldivas",u:"https://visitmaldives.com/",f:"Lujo absoluto sobre aguas turquesas."},
+    {n:"Kioto, Japón",u:"https://kyoto.travel/",f:"Templos, geishas y tradición pura."},
+    {n:"Cartagena, Colombia",u:"https://www.cartagenadeindias.travel/",f:"Color, sabor y magia colonial."}
+];
+
+/* Elegir un destino aleatorio */
+function nuevoDestino() {
+    let d = destinos[Math.floor(Math.random() * destinos.length)];
+    document.getElementById("destino").innerHTML =
+        `➡️ <a href="${d.u}" target="_blank">${d.n}</a>`;
+    document.getElementById("texto").innerText = d.f;
+}
+
+/* Mostrar un destino al entrar */
+nuevoDestino();
+
+/* Efecto Parallax */
+document.addEventListener("mousemove", e => {
+    const x = (window.innerWidth / 2 - e.clientX) / 20;
+    const y = (window.innerHeight / 2 - e.clientY) / 20;
+    document.getElementById("card").style.transform = `translate(${x}px, ${y}px)`;
+});
+</script>
+</body>
+</html>
